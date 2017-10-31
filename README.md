@@ -5,4 +5,5 @@ Click on "src/me/xnuminousx/tutorial" above and sift through the different files
 
 # Files
 * AbilityClass - Explains what goes in an ability class. This class will contain what the move actually does; as well as config variables, permissions, load messages, names, descriptions, and more!
+> * Note: I recommend starting from the AbilityListener then moving on to the AbilityClass.
 * AbilityListener - This will contain the event that triggers the AbilityClass. For instance, the trigger of this ability is a click. So when a player clicks, the AbilityClass will be triggered!
