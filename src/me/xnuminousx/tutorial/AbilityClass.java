@@ -14,13 +14,19 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.projectkorra.projectkorra.util.ParticleEffect;
 
 /*
- * Extends FireAbility to define the element that the ability is for.
- * Implement AddonAbility to define this as an AddonAbility as opposed to ComboAbility or PassiveAbility.
+ * extends FireAbility
+ * This defines what element the addon will go under. There's also ChiAbility and AvatarAbility
+ * aside from each of the 4 elements and their subelements.
+ * 
+ * implements AddonAbility
+ * This is telling projectkorra that the this is an AddonAbility as opposed to
+ * ComboAbility, PassiveAbility and SubAbility.
+ * Notice: You should always implement AddonAbility, unless it's not an ability of course.
  */
 public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
-	 * When creating a variable, put it here.
+	 * Variables you create can go here for organization.
 	 */
 	private Location location;
 	private Location origin;
@@ -40,7 +46,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		}
 		
 		/*
-		 * Method containing different variables set in the start of the ability.
+		 * Custom method that we will define later.
 		 */
 		setFields();
 		
@@ -55,19 +61,24 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		bPlayer.addCooldown(this);
 	}
 
+	/*
+	 * Place to define variables at the start of an ability.
+	 * Notice the "setFields()" included here and in the constructor.
+	 * You create variables above the constructor and here is where you define them.
+	 */
 	private void setFields() {
-		/*
-		 * Place to define variables at the start of an ability.
-		 */
 		this.origin = player.getLocation().clone().add(0, 1, 0);
 		this.location = origin.clone();
 		this.direction = player.getLocation().getDirection();
 	}
 
+	/*
+	 * Method that controls what the abilities does.
+	 */
 	@Override
 	public void progress() {
 		/*
-		 * If the player dies or leaves the server in the middle of an ability it will stop.
+		 * If the player dies or leaves the server in the middle of an ability, it will stop.
 		 */
 		if (player.isDead() || !player.isOnline()) {
 			remove();
@@ -75,7 +86,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		}
 		
 		/*
-		 * If the ability's location is greater than 20 blocks from the origin it will stop.
+		 * If the ability progresses beyond 20 blocks it will stop and be put on cooldown.
 		 */
 		if (origin.distance(location) > 20) {
 			remove();
@@ -83,7 +94,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		}
 		
 		/*
-		 * Updates the location every tick to go forward in the direction the player is looking, with a speed of 1.
+		 * Updates the location every tick to go in the direction the player is looking, with a speed of 1.
 		 */
 		location.add(direction.multiply(1));
 		
@@ -101,11 +112,12 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		}
 		
 		/*
-		 * Checks for any entities around the location of the entity.
+		 * Checks for any entities around the location of the entity with a radius of 1.
 		 */
 		for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
 			/*
-			 * If there is an entity and it's living and it's not the player, damage that entity and stop.
+			 * If there is an entity which is living and is not equal to the player using the ability, 
+			 * the entity will take damage and the ability will stop progressing.
 			 */
 			if ((entity instanceof LivingEntity) && entity.getUniqueId() != player.getUniqueId()) {
 				DamageHandler.damageEntity(entity, 2, this);
@@ -116,7 +128,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	}
 
 	/*
-	 * The cooldown duration.
+	 * The duration of the cooldown.
 	 */
 	@Override
 	public long getCooldown() {
@@ -124,7 +136,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	}
 
 	/*
-	 * The location.
+	 * The location. Because this isn't necessary, it returns "null"
 	 */
 	@Override
 	public Location getLocation() {
@@ -133,6 +145,8 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * The name of the ability.
+	 * This will appear when using the /bending display commands, /bending who commands, and in a BendingBoard plugin
+	 * you may or may not have.
 	 */
 	@Override
 	public String getName() {
@@ -141,6 +155,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	
 	/*
 	 * The description for the ability.
+	 * Displays in /b h [abilityname]
 	 */
 	@Override
 	public String getDescription() {
@@ -149,6 +164,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	
 	/*
 	 * The instruction for the ability.
+	 * Displays in /b h [abilityname]
 	 */
 	@Override
 	public String getInstructions() {
@@ -157,6 +173,8 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * The author of the ability.
+	 * Displays in /b h [abilityname] in more recent versions of ProjectKorra.
+	 * Also useful for putting credit in the getDescription() method or the load() method if you so choose.
 	 */
 	@Override
 	public String getAuthor() {
@@ -165,6 +183,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * The version of the ability.
+	 * Displays in /b h [abilityname] in more recent versions of ProjectKorra.
 	 */
 	@Override
 	public String getVersion() {
@@ -173,6 +192,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * Does this ability harm things?
+	 * This is not necessary.
 	 */
 	@Override
 	public boolean isHarmlessAbility() {
@@ -181,6 +201,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * Do you need to sneak for the ability (shift)?
+	 * This is not necessary.
 	 */
 	@Override
 	public boolean isSneakAbility() {
@@ -206,7 +227,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * This method is run whenever the ability is disabled from a server.
-	 * Stop/reload
+	 * Restart/reload
 	 */
 	@Override
 	public void stop() {

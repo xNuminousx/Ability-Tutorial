@@ -13,32 +13,40 @@ import com.projectkorra.projectkorra.BendingPlayer;
 public class AbilityListener implements Listener {
 
 	/*
-	 * Method that is called any time the given player left-clicks.
+	 * The event method.
+	 * This specific event is looking for "PlayerAnimationEvent" which is triggered any time
+	 * the server sees that the player has left-clicked. This is also triggered by other
+	 * things but we are using it for the left-click function.
 	 */
 	@EventHandler
 	public void onSwing(PlayerAnimationEvent event) {
 
 		/*
 		 * Variables to define.
-		 * Grabbing the player by getting the player who triggered the event.
+		 * Here we need to create a player with ProjectKorra.
+		 * We do this by grabbing whoever triggered the event, and then getting their bending details.
 		 */
 		Player player = event.getPlayer();
 		BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
 
 		/*
-		 * If this event has been cancelled or a player triggering the event does not exist, stop checking code.
+		 * If this event has been cancelled or a player that triggered the event does not exist,
+		 * then return.
 		 */
 		if (event.isCancelled() || bPlayer == null) {
 			return;
 
 		/*
-		 * If the player exists and the event wasn't cancelled, but their bound ability is non-existent, stop checking code.	
+		 * If the player exists and the event wasn't cancelled, but their bound ability is non-existent,
+		 * then return;
+		 * 
+		 * This basically ensures that only players with bind abilities will be checked by the server.
 		 */
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase(null)) {
 			return;
 
 		/*
-		 * If the player's bound ability equals Tutorial, then run the code in the AbilityClass.	
+		 * If the player's bound ability equals Tutorial, then progress AbilityClass.
 		 */
 		} else if (bPlayer.getBoundAbilityName().equalsIgnoreCase("Tutorial")) {
 			new AbilityClass(player);
