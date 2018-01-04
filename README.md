@@ -2,7 +2,7 @@
 Learn to create your very own ProjectKorra add-on!
 
 # Starting Out
-Before anything, you'll need to create a new JavaProject using whatever your preferred IDE is. Once you've created your JavaProject, you need to add whatever versions of ProjectKorra and Spigot your server is using as an ExternalJar. Do this by right-clicking your project and going to Properties, then clicking JavaBuildPath. You should be able to find the Add External Jars button pretty quickly after that. Once you've done this, you now have the Spigot and ProjectKorra API at your finger tips.
+Before anything, you'll need to create a new JavaProject using whatever your preferred IDE is. Once you've created your JavaProject, you need to add whatever versions of ProjectKorra and Spigot your server is using as an ExternalJar. If you use Eclipse, do this by right-clicking your project and going to Properties, then clicking JavaBuildPath. You should be able to find the Add External Jars button pretty quickly after that. Once you've done this, you now have the Spigot and ProjectKorra API at your finger tips.
 
 Click on "src/me/xnuminousx/tutorial" above and sift through the different files to learn!
 
