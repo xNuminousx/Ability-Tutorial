@@ -22,11 +22,13 @@ import com.projectkorra.projectkorra.util.ParticleEffect;
  * This is telling projectkorra that the this is an AddonAbility as opposed to
  * ComboAbility, PassiveAbility and SubAbility.
  * Notice: You should always implement AddonAbility, unless it's not an ability of course.
+ * Example: For a ComboAbility you'd use "ComboAbility, AddonAbility"
  */
 public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * Variables you create can go here for organization.
+	 * If you have your own way for organiztion, then use that.
 	 */
 	private Location location;
 	private Location origin;
@@ -67,8 +69,20 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	 * You create variables above the constructor and here is where you define them.
 	 */
 	private void setFields() {
+		/*
+		 * We want to get a location that represents the start of the ability and use it for later.
+		 */
 		this.origin = player.getLocation().clone().add(0, 1, 0);
+		
+		/*
+		 * Then we use another location variable so that we can tell the ability what to do.
+		 */
 		this.location = origin.clone();
+		
+		/*
+		 * Since this is a "blast" ability we're going to get the players direction
+		 * so that we tell the ability which direction to go in.
+		 */
 		this.direction = player.getLocation().getDirection();
 	}
 
@@ -78,7 +92,9 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	@Override
 	public void progress() {
 		/*
-		 * If the player dies or leaves the server in the middle of an ability, it will stop.
+		 * Makes sure the ability doesn't progress when there's no player. You could also make sure
+		 * they don't switch worlds.
+		 * English: If the player is dead or the player in not online, stop.
 		 */
 		if (player.isDead() || !player.isOnline()) {
 			remove();
@@ -87,6 +103,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		
 		/*
 		 * If the ability progresses beyond 20 blocks it will stop and be put on cooldown.
+		 * English: If our "origin" variable is more than 20 blocks from our "location" variable, stop.
 		 */
 		if (origin.distance(location) > 20) {
 			remove();
@@ -100,11 +117,14 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		
 		/*
 		 * Defines the particle effect that displays at every location point.
+		 * Depending on your IDE, you should be able to hover over "display" to see
+		 * what each of the variabels in the paranthesis mean.
 		 */
 		ParticleEffect.FLAME.display(location, 0, 0, 0, 0, 1);
 		
 		/*
-		 * If the ability's location is equal to that of a block it will stop.
+		 * Stops the ability if it hits a block.
+		 * English: If the location of the ability is equal to that of a block, stop.
 		 */
 		if (GeneralMethods.isSolid(location.getBlock())) {
 			remove();
@@ -112,11 +132,13 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 		}
 		
 		/*
-		 * Checks for any entities around the location of the entity with a radius of 1.
+		 * Loop that checks for entities wherever our "location" variable is.
+		 * English: If there is ever an entity around the variable "location" call it "entity"
 		 */
 		for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, 1)) {
 			/*
-			 * If there is an entity which is living and is not equal to the player using the ability, 
+			 * The effects we apply to the "entity"
+			 * English: If there is an entity which is living and is not equal to the player using the ability, 
 			 * the entity will take damage and the ability will stop progressing.
 			 */
 			if ((entity instanceof LivingEntity) && entity.getUniqueId() != player.getUniqueId()) {
