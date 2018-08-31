@@ -150,7 +150,8 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	}
 
 	/*
-	 * The duration of the cooldown.
+	 * The duration of the cooldown. This is useful to some aspects of the ProjectKorra API (like bending previews)
+	 * and for other addon developers to use. Set this to return a 'long' variable representing your cooldown.
 	 */
 	@Override
 	public long getCooldown() {
@@ -158,7 +159,9 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 	}
 
 	/*
-	 * The location. Because this isn't necessary, it returns "null"
+	 * The location of the ability. This is useful for some aspects of the ProjectKorra API (like ability collisions)
+	 * and for other addon developers to use. Because we are not setting up any collisions and I'm not worried about
+	 * addon developers using this, I'm setting it to null. Otherwise, set it to return the location of your ability.
 	 */
 	@Override
 	public Location getLocation() {
@@ -214,7 +217,7 @@ public class AbilityClass extends FireAbility implements AddonAbility {
 
 	/*
 	 * Does this ability harm things?
-	 * This is not necessary.
+	 * This is not necessary unless you need to be concerned with whether or not this ability will work in regions.
 	 */
 	@Override
 	public boolean isHarmlessAbility() {
