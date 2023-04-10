@@ -1,3 +1,7 @@
+# DISCLAIMER
+This project is not updated and may not be applicable on newer versions of ProjectKorra or Spigot. Continue at your own risk.
+
+
 # Ability-Tutorial
 Learn to create your very own ProjectKorra add-on!
 
